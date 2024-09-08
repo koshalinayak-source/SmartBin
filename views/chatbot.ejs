@@ -1,0 +1,315 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recycling Center Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        #chatbox {
+            width: 400px;
+            height: 500px;
+            border: 1px solid #ccc;
+            background: #fff;
+            padding: 10px;
+            overflow-y: scroll;
+            margin-bottom: 10px;
+        }
+        #userInput {
+            width: 300px;
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        #sendBtn {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Recycling Center Chatbot</h1>
+    <div id="chatbox"></div>
+    <input type="text" id="userInput" placeholder="Type your query here...">
+    <button id="sendBtn">Send</button>
+
+   
+    <script>
+    const chatbotUrl = '<%= chatbotUrl %>';
+    console.log('Chatbot URL:', chatbotUrl);
+ 
+    document.getElementById('sendBtn').addEventListener('click', async function() {
+        const query = document.getElementById('userInput').value;
+        if (!query) return;
+ 
+        const chatbox = document.getElementById('chatbox');
+        chatbox.innerHTML += `<p><strong>You:</strong> ${query}</p>`;
+        document.getElementById('userInput').value = '';
+ 
+        try {
+            console.log('Sending request to:', chatbotUrl);
+            const response = await fetch(chatbotUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ query: query }),
+            });
+            console.log('Response status:', response.status);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            console.log('Received data:', data);
+            chatbox.innerHTML += `<p><strong>Bot:</strong> ${data.response}</p>`;
+        } catch (error) {
+            console.error('Error:', error);
+            let errorMessage = 'Could not connect to the chatbot. ';
+            if (error.message.includes('Failed to fetch')) {
+                errorMessage += 'The server might not be running. Please check if the Python server is started.';
+            } else {
+                errorMessage += error.message;
+            }
+            chatbox.innerHTML += `<p style="color: red;"><strong>Error:</strong> ${errorMessage}</p>`;
+        }
+ 
+        chatbox.scrollTop = chatbox.scrollHeight;
+    });
+ 
+    document.getElementById('userInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            document.getElementById('sendBtn').click();
+        }
+    });
+</script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eco-Friendly Recycling Chatbot</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #45a049;
+            --background-color: #f0f7f0;
+            --text-color: #333;
+            --accent-color: #4e165c;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        .chat-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            border-bottom: 5px solid var(--accent-color);
+        }
+        #chatbox {
+            height: 400px;
+            padding: 20px;
+            overflow-y: auto;
+            background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"%3E%3Cpath d="M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z" fill="%234CAF50" fill-opacity="0.1"%3E%3C/path%3E%3C/svg%3E');
+        }
+        .message {
+            margin-bottom: 15px;
+            line-height: 1.5;
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 20px;
+            animation: fadeIn 0.5s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .user-message {
+            background-color: #E8F5E9;
+            color: var(--text-color);
+            align-self: flex-end;
+            margin-left: auto;
+            border-bottom-right-radius: 0;
+        }
+        .bot-message {
+            background-color: #C8E6C9;
+            color: var(--text-color);
+            align-self: flex-start;
+            margin-right: auto;
+            border-bottom-left-radius: 0;
+        }
+        .input-area {
+            display: flex;
+            padding: 20px;
+            background-color: #E8F5E9;
+            border-top: 1px solid #C8E6C9;
+        }
+        #userInput {
+            flex-grow: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            background-color: white;
+            transition: box-shadow 0.3s ease;
+        }
+        #userInput:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--accent-color);
+        }
+        #sendBtn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #sendBtn:hover {
+            background-color: #53188a;
+            transform: scale(1.05);
+        }
+        #sendBtn i {
+            font-size: 20px;
+        }
+        .quick-replies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .quick-reply {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 15px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .quick-reply:hover {
+            background-color: #350b51;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <a href="/"><img src="../images/icons8-back-arrow-32.png" style="width:40px ; position:absolute; left: 10px; top:10px" alt=""></a>
+    <div class="container">
+        <div class="chat-header">
+            <i class="fas fa-recycle"></i> Eco-Friendly Recycling Chatbot
+        </div>
+        <div id="chatbox"></div>
+        <div class="input-area">
+            <input type="text" id="userInput" placeholder="Ask about recycling, roadside cleanup, or recyclable items...">
+            <button id="sendBtn"><i class="fas fa-paper-plane"></i></button>
+        </div>
+        <div class="quick-replies">
+            <button class="quick-reply">How to recycle plastic?</button>
+            <button class="quick-reply">Roadside cleanup tips</button>
+            <button class="quick-reply">What items are recyclable?</button>
+        </div>
+    </div>
+
+    <script>
+    const chatbotUrl = '<%= chatbotUrl %>';
+    console.log('Chatbot URL:', chatbotUrl);
+
+    document.getElementById('sendBtn').addEventListener('click', sendMessage);
+    document.getElementById('userInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
+
+    document.querySelectorAll('.quick-reply').forEach(button => {
+        button.addEventListener('click', function() {
+            document.getElementById('userInput').value = this.textContent;
+            sendMessage();
+        });
+    });
+
+    async function sendMessage() {
+        const userInput = document.getElementById('userInput');
+        const query = userInput.value.trim();
+        if (!query) return;
+
+        const chatbox = document.getElementById('chatbox');
+        chatbox.innerHTML += `<div class="message user-message"><strong>You:</strong> ${query}</div>`;
+        userInput.value = '';
+
+        try {
+            console.log('Sending request to:', chatbotUrl);
+            const response = await fetch(chatbotUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ query: query }),
+            });
+            console.log('Response status:', response.status);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            console.log('Received data:', data);
+            chatbox.innerHTML += `<div class="message bot-message"><strong>Bot:</strong> ${data.response}</div>`;
+        } catch (error) {
+            console.error('Error:', error);
+            let errorMessage = 'Could not connect to the chatbot. ';
+            if (error.message.includes('Failed to fetch')) {
+                errorMessage += 'The server might not be running. Please check if the Python server is started.';
+            } else {
+                errorMessage += error.message;
+            }
+            chatbox.innerHTML += `<div class="message bot-message" style="color: red;"><strong>Error:</strong> ${errorMessage}</div>`;
+        }
+
+        chatbox.scrollTop = chatbox.scrollHeight;
+    }
+    </script>
+</body>
+</html>
