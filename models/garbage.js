@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect(`mongodb://localhost:27017/hackathonTest2`);
+mongoose.connect(`mongodb://localhost:27017/SmartBin`);
 
 const garbageSchema = mongoose.Schema({
     user : {
